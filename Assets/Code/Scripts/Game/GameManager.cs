@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Code.Scripts.Game
 {
     [RequireComponent(typeof(AudioSource))]
-    public class Game : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
-        public static Game Instance { get; private set; }
+        [Header("Game Settings")]
+        [SerializeField] private int _maxScoreForWin = 5;
 
+        public static GameManager Instance { get; private set; }
         public GameState State { get; private set; }
+        public readonly Score Score;
 
         private Pause _pause = new();
         private Audio _audio;
@@ -25,22 +29,38 @@ namespace Assets.Code.Scripts.Game
             _audio = new(_audioSource);
         }
 
+        private void OnEnable()
+        {
+            Score.ScoreUpdate += CheckGameScore;
+        }
+
+        private void OnDisable()
+        {
+            Score.ScoreUpdate -= CheckGameScore;
+        }
+
         private void OnApplicationFocus(bool focus) => GamePause(!focus);
 
         private void GamePause(bool value)
         {
             if (value)
-            {
                 State = GameState.Pausing;
-                _pause.Pausing(value);
-                _audio.Silence(value);
-            }
             else
-            {
                 State = GameState.Playing;
-                _pause.Pausing(value);
-                _audio.Silence(value);
-            }
+
+            _pause.Pausing(State);
+            _audio.Silence(State);
+        }
+
+        private void CheckGameScore(int score)
+        {
+            if (score == _maxScoreForWin)
+                GameOver();
+        }
+
+        private void GameOver()
+        {
+            GamePause(true);
         }
     }
 }

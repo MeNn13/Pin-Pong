@@ -5,8 +5,8 @@ namespace Assets.Code.Scripts.Game
 {
     public class LocalDataBase
     {
-        private GameInfo _gameInfo;
-        private string _key = "Game";
+        public GameInfo GameInfo;
+        private readonly string _key = "Game";
 
         public LocalDataBase() => QuickLoad();
 
@@ -15,14 +15,14 @@ namespace Assets.Code.Scripts.Game
             GameInfo gameInfoData = JsonUtility.FromJson<GameInfo>(PlayerPrefs.GetString(_key));
 
             if (gameInfoData == null)
-                _gameInfo = new GameInfo();
+                GameInfo = new GameInfo();
             else
-                _gameInfo = gameInfoData;
+                GameInfo = gameInfoData;
         }
 
         public void QuickSave()
         {
-            string json = JsonUtility.ToJson(_gameInfo);
+            string json = JsonUtility.ToJson(GameInfo);
             PlayerPrefs.SetString(_key, json);
         }
     }

@@ -9,9 +9,9 @@ namespace Assets.Code.Scripts.Game
 
         public Audio(AudioSource audioSource) => _audioSource = audioSource;
 
-        public void Silence(bool value)
+        public void Silence(GameState state)
         {
-            if (value)
+            if (state == GameState.Pausing)
                 _audioSource.Pause();
             else
                 _audioSource.Play();
