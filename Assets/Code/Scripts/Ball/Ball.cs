@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Code.Scripts.Game;
+using UnityEngine;
 
 namespace Assets.Code.Scripts.Ball
 {
@@ -8,6 +9,8 @@ namespace Assets.Code.Scripts.Ball
         private Vector2 _direction = Vector2.zero;
         private Rigidbody2D _rb;
 
+        private GameState GameState => GameManager.Instance.State;
+
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -15,7 +18,7 @@ namespace Assets.Code.Scripts.Ball
 
         private void Update()
         {
-            if(Input.anyKey)
+            if(GameState == GameState.Playing)
                 LunchBallInRandomDirection();
         }
 

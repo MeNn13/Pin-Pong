@@ -12,18 +12,21 @@ namespace Assets.Code.Scripts.Game
 
         public void QuickLoad()
         {
-            GameInfo gameInfoData = JsonUtility.FromJson<GameInfo>(PlayerPrefs.GetString(_key));
+            GameInfo gameInfo = JsonUtility.FromJson<GameInfo>(PlayerPrefs.GetString(_key));
 
-            if (gameInfoData == null)
-                GameInfo = new GameInfo();
+            if (gameInfo != null)
+                GameInfo = gameInfo;
             else
-                GameInfo = gameInfoData;
+            {
+                GameInfo = new GameInfo();
+                QuickSave();
+            }
         }
 
         public void QuickSave()
         {
-            string json = JsonUtility.ToJson(GameInfo);
-            PlayerPrefs.SetString(_key, json);
+            string json = JsonUtility.ToJson(_key);
+            PlayerPrefs.SetString("Game", json);
         }
     }
 

@@ -6,12 +6,15 @@ namespace Assets.Code.Scripts.Game
     [RequireComponent(typeof(AudioSource))]
     public class GameManager : MonoBehaviour
     {
+        public event Action<GameState> ChangeState;
+        public event Action OnGameOver;
+
         [Header("Game Settings")]
         [SerializeField] private int _maxScoreForWin = 5;
 
         public static GameManager Instance { get; private set; }
         public GameState State { get; private set; }
-        public readonly Score Score;
+        public readonly Score Score = new();
 
         private Pause _pause = new();
         private Audio _audio;
@@ -39,6 +42,18 @@ namespace Assets.Code.Scripts.Game
             Score.ScoreUpdate -= CheckGameScore;
         }
 
+        private void Start() => GamePause(true);
+
+        private void Update()
+        {
+            if (State == GameState.Pausing && Input.anyKeyDown)
+            {
+                State = GameState.Playing;
+                GamePause(false);
+                ChangeState?.Invoke(State);
+            }
+        }
+
         private void OnApplicationFocus(bool focus) => GamePause(!focus);
 
         private void GamePause(bool value)
@@ -61,6 +76,7 @@ namespace Assets.Code.Scripts.Game
         private void GameOver()
         {
             GamePause(true);
+            OnGameOver?.Invoke();
         }
     }
 }
