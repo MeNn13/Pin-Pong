@@ -1,12 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Asset.Code.Script.Racket;
+using UnityEngine;
 
 namespace Assets.Code.Scripts.Racket
 {
-    internal class Racket
+    public class Racket : MonoBehaviour
     {
+        [SerializeField] private float _speed = 2f;
+        public float Speed
+        {
+            get => _speed;
+            private set
+            {
+                if (value >= 0)
+                    _speed = value;
+            }
+        }
+
+        private RacketMovement _racketMovement;
+
+        private void Awake()
+        {
+            _racketMovement = new RacketMovement();
+        }
+
+        private void Update()
+        {
+            _racketMovement.Move(transform, Input.GetAxis("Vertical"), _speed, Time.deltaTime);
+        }       
     }
 }

@@ -2,20 +2,12 @@ using UnityEngine;
 
 namespace Asset.Code.Script.Racket
 {
-    internal class RacketMovement
+    public class RacketMovement
     {
-        private Vector2 _direction;
-
-        public void Move(Transform transform, float speed)
+        public void Move(Transform transform, float inputY, float speed, float deltaTime)
         {
-            _direction = InputDirection();
-            transform.position = _direction * speed * Time.deltaTime;
-        }
-
-        private Vector2 InputDirection()
-        {
-            float moveY = Input.GetAxis("Vertical");
-            return new Vector2(0, moveY);
+            Vector3 direction = new Vector3(0, inputY, 0);
+            transform.position += direction * speed * deltaTime;
         }
     }
 }
