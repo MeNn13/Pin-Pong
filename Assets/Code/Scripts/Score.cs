@@ -1,5 +1,6 @@
 ﻿using Assets.Code.Scripts.Game;
 using System;
+using Zenject;
 
 namespace Assets.Code.Scripts
 {
@@ -18,7 +19,12 @@ namespace Assets.Code.Scripts
             }
         }
 
-        private readonly LocalDataBase _localDataBase = new();
+        private readonly LocalDataBase _localDataBase;
+
+        public Score(LocalDataBase localDataBase)
+        {
+            _localDataBase = localDataBase;
+        }
 
         public void ScoreUp()
         {

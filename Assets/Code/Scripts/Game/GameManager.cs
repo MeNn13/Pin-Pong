@@ -1,35 +1,42 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Code.Scripts.Game
 {
     [RequireComponent(typeof(AudioSource))]
     public class GameManager : MonoBehaviour
     {
-        public event Action<GameState> ChangeState;
-        public event Action OnGameOver;
+        public static event Action<GameState> ChangeState;
+        public static event Action OnGameOver;
 
         [Header("Game Settings")]
         [SerializeField] private int _maxScoreForWin = 5;
+        [SerializeField] private Spawner _spawner;
+        
 
-        public static GameManager Instance { get; private set; }
-        public GameState State { get; private set; }
-        public readonly Score Score = new();
+        private GameState State
+        {
+            get => _state; set
+            {
+                _state = value;
+                ChangeState.Invoke(_state);
+            }
+        }
+
+        [Inject]
+        private readonly Score Score;
 
         private Pause _pause = new();
         private Audio _audio;
         private AudioSource _audioSource;
+        private GameState _state;
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(this);
-            }
-
             _audioSource = GetComponent<AudioSource>();
             _audio = new(_audioSource);
+            _spawner.Spawn();
         }
 
         private void OnEnable()
@@ -46,7 +53,7 @@ namespace Assets.Code.Scripts.Game
 
         private void Update()
         {
-            if (State == GameState.Pausing && Input.anyKeyDown)
+            if (State == GameState.Pausing || Input.anyKeyDown)
             {
                 State = GameState.Playing;
                 GamePause(false);
@@ -66,17 +73,14 @@ namespace Assets.Code.Scripts.Game
             _pause.Pausing(State);
             _audio.Silence(State);
         }
-
+    
         private void CheckGameScore(int score)
         {
             if (score == _maxScoreForWin)
-                GameOver();
-        }
+                OnGameOver?.Invoke();
 
-        private void GameOver()
-        {
             GamePause(true);
-            OnGameOver?.Invoke();
+            _spawner.Spawn();
         }
     }
 }

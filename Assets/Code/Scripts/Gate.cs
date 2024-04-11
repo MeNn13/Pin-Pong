@@ -1,5 +1,5 @@
-﻿using Assets.Code.Scripts.Game;
-using UnityEngine;
+﻿using UnityEngine;
+using Zenject;
 
 namespace Assets.Code.Scripts
 {
@@ -7,7 +7,8 @@ namespace Assets.Code.Scripts
     {
         [SerializeField] private string _ballTag;
 
-        private Score _score => GameManager.Instance.Score;
+        [Inject]
+        private readonly Score _score;
 
         private void OnCollisionEnter2D(Collision2D collision)
         {

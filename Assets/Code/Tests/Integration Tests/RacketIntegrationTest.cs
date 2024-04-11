@@ -8,7 +8,7 @@ using UnityEngine.TestTools;
 public class RacketIntegrationTest
 {
     private Racket _racket;
-    private RacketMovement _movement;
+    private MovementHandler _movement;
     private float _racketStartAxisY;
 
     [SetUp]
@@ -17,7 +17,7 @@ public class RacketIntegrationTest
         _racket = Resources.Load<Racket>("Racket");
         Object.Instantiate(_racket);
         _racketStartAxisY = _racket.transform.position.y;
-        _movement = new RacketMovement();
+        _movement = new MovementHandler();
     }
 
     [TearDown]
@@ -35,7 +35,7 @@ public class RacketIntegrationTest
 
         yield return new WaitForSeconds(.1f);
 
-        _movement.Move(_racket.transform, axisY, _racket.Speed, Time.deltaTime);
+        _movement.Move(_racket.transform, new Vector2(0, axisY), _racket.Speed, Time.deltaTime);
 
         yield return new WaitForSeconds(.1f);
 
@@ -49,7 +49,7 @@ public class RacketIntegrationTest
 
         yield return new WaitForSeconds(.1f);
 
-        _movement.Move(_racket.transform, axisY, _racket.Speed, Time.deltaTime);
+        _movement.Move(_racket.transform, new Vector2(0, axisY), _racket.Speed, Time.deltaTime);
 
         yield return new WaitForSeconds(.1f);
 
@@ -63,7 +63,7 @@ public class RacketIntegrationTest
 
         yield return new WaitForSeconds(.1f);
 
-        _movement.Move(_racket.transform, axisY, _racket.Speed, Time.deltaTime);
+        _movement.Move(_racket.transform, new Vector2(0, axisY), _racket.Speed, Time.deltaTime);
 
         yield return new WaitForSeconds(.1f);
 
