@@ -81,10 +81,14 @@ namespace Assets.Code.Scripts.Game
 
         private void CheckGameScore(int score, GateType gateType)
         {
-            if (score == _maxScoreForWin)
-                OnGameOver?.Invoke();
-
             State = GameState.Stopping;
+
+            if (score == _maxScoreForWin)
+            {
+                OnGameOver?.Invoke();
+                return;
+            }
+
             _spawner.Spawn();
         }
     }
