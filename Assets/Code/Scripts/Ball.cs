@@ -17,6 +17,7 @@ namespace Assets.Code.Scripts.Ball
             }
         }
 
+        public Vector2 Direction { get => _direction; }
         private Vector2 _direction = Vector2.zero;
         private MovementHandler _movementHandler = new();
 
@@ -48,10 +49,12 @@ namespace Assets.Code.Scripts.Ball
                 _direction.x = -_direction.x;
         }
 
-        private void TryLunchBall(GameState state)
+        public void TryLunchBall(GameState state)
         {
-            if (state == GameState.Playing && _direction == Vector2.zero)
+            if (state == GameState.Playing)
                 _direction = Vector2.one;
+            else
+                _direction = Vector2.zero;
         }
     }
 }

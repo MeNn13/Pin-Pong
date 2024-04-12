@@ -36,6 +36,7 @@ namespace Assets.Code.Scripts.Game
             _audioSource = GetComponent<AudioSource>();
             _audio = new(_audioSource);
             _spawner.Spawn();
+            State = GameState.Stopping;
         }
 
         private void OnEnable()
@@ -47,8 +48,6 @@ namespace Assets.Code.Scripts.Game
         {
             Score.ScoreUpdate -= CheckGameScore;
         }
-
-        private void Start() => State = GameState.Stopping;
 
         private void Update() => TryStartGame();
 

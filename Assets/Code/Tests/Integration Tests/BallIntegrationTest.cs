@@ -1,5 +1,6 @@
 using Asset.Code.Script.Racket;
 using Assets.Code.Scripts.Ball;
+using Assets.Code.Scripts.Game;
 using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class BallIntegrationTest
     }
 
     [UnityTest]
-    public IEnumerator LunchBallInRandomDirection()
+    public IEnumerator LunchBallInDirectionEqualVector2One()
     {
         yield return new WaitForSeconds(.1f);
 
@@ -39,5 +40,50 @@ public class BallIntegrationTest
         yield return new WaitForSeconds(.1f);
 
         Assert.AreNotEqual(_startBallPosition, _ball.transform.position);
+    }
+
+    [UnityTest]
+    public IEnumerator TryLunchBallInDependingOnGameStateIsPlaying()
+    {
+        GameState gameState = GameState.Playing;
+
+        yield return new WaitForSeconds(.1f);
+
+        _ball.TryLunchBall(gameState);
+        _movementHandler.Move(_ball.transform, _ball.Direction, _ball.Speed, Time.deltaTime);
+
+        yield return new WaitForSeconds(.1f);
+
+        Assert.AreNotEqual(_startBallPosition, _ball.transform.position);
+    }
+
+    [UnityTest]
+    public IEnumerator TryLunchBallInDependingOnGameStateIsStopping()
+    {
+        GameState gameState = GameState.Stopping;
+
+        yield return new WaitForSeconds(.1f);
+
+        _ball.TryLunchBall(gameState);
+        _movementHandler.Move(_ball.transform, _ball.Direction, _ball.Speed, Time.deltaTime);
+
+        yield return new WaitForSeconds(.1f);
+
+        Assert.AreEqual(_startBallPosition, _ball.transform.position);
+    }
+
+    [UnityTest]
+    public IEnumerator TryLunchBallInDependingOnGameStateIsPausing()
+    {
+        GameState gameState = GameState.Pausing;
+
+        yield return new WaitForSeconds(.1f);
+
+        _ball.TryLunchBall(gameState);
+        _movementHandler.Move(_ball.transform, _ball.Direction, _ball.Speed, Time.deltaTime);
+
+        yield return new WaitForSeconds(.1f);
+
+        Assert.AreEqual(_startBallPosition, _ball.transform.position);
     }
 }
