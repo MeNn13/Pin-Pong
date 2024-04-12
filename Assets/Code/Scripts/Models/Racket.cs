@@ -1,11 +1,10 @@
-﻿using Asset.Code.Script.Racket;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Code.Scripts.Racket
+namespace Assets.Code.Scripts.Models
 {
     public class Racket : MonoBehaviour
     {
-        [SerializeField] private float _speed = 2f;
+        [SerializeField] private float _speed = 13f;
         public float Speed
         {
             get => _speed;

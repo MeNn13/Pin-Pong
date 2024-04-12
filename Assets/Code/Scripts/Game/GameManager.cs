@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Code.Scripts.Models;
+using Assets.Code.Scripts.Models.Gate;
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -77,7 +79,7 @@ namespace Assets.Code.Scripts.Game
             _audio.Silence(State);
         }
 
-        private void CheckGameScore(int score)
+        private void CheckGameScore(int score, GateType gateType)
         {
             if (score == _maxScoreForWin)
                 OnGameOver?.Invoke();

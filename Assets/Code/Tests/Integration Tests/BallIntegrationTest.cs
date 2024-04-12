@@ -1,6 +1,5 @@
-using Asset.Code.Script.Racket;
-using Assets.Code.Scripts.Ball;
 using Assets.Code.Scripts.Game;
+using Assets.Code.Scripts.Models;
 using NUnit.Framework;
 using System.Collections;
 using UnityEngine;

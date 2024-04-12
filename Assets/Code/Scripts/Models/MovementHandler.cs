@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Asset.Code.Script.Racket
+namespace Assets.Code.Scripts.Models
 {
     public class MovementHandler
     {

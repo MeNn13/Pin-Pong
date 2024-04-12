@@ -1,12 +1,11 @@
-﻿using Asset.Code.Script.Racket;
-using Assets.Code.Scripts.Game;
+﻿using Assets.Code.Scripts.Game;
 using UnityEngine;
 
-namespace Assets.Code.Scripts.Ball
+namespace Assets.Code.Scripts.Models
 {
     public class Ball : MonoBehaviour
     {
-        [SerializeField] private float _speed = 5f;
+        [SerializeField] private float _speed = 13f;
         public float Speed
         {
             get => _speed;

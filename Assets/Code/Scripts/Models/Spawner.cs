@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Code.Scripts
+namespace Assets.Code.Scripts.Models
 {
     public class Spawner : MonoBehaviour
     {

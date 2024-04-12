@@ -1,36 +1,52 @@
-using Assets.Code.Scripts;
 using Assets.Code.Scripts.Game;
+using Assets.Code.Scripts.Models;
+using Assets.Code.Scripts.Models.Gate;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Assets.Code.Tests.Unit_Tests
 {
+    [TestFixture]
     public class ScoreUnitTest
     {
         private Score _score;
-        private LocalDataBase _localDataBase;
-        private int _scoreStartValue;
+        GateType firstGate = GateType.First;
+        GateType secondGate = GateType.Second;
+        private int _scoreStartValueFirstPlayer;
+        private int _scoreStartValueSecondPlayer;
 
         [SetUp]
         public void Setup()
         {
-            _localDataBase = new LocalDataBase();
-            _score = new Score(_localDataBase);
-            _scoreStartValue = _score.ScoreProperty;
+            _score = new Score();
+            _scoreStartValueFirstPlayer = _score.ScoreDictionary[firstGate];
+            _scoreStartValueSecondPlayer = _score.ScoreDictionary[secondGate];
         }
 
         [TearDown]
         public void TearDown()
         {
             _score = null;
-            _scoreStartValue = 0;
+            _scoreStartValueFirstPlayer = 0;
+            _scoreStartValueSecondPlayer = 0;
         }
 
         [Test]
-        public void WhenBallToGate_ScoreUp()
+        public void WhenBallToFirstGate_ScoreUp()
         {
-            _score.ScoreUp();
+            _score.ScoreUp(firstGate);
 
-            Assert.Greater(_score.ScoreProperty, _scoreStartValue);
+            Debug.Log(firstGate);
+            Assert.Greater(_score.ScoreDictionary[firstGate], _scoreStartValueFirstPlayer);
+        }
+
+        [Test]
+        public void WhenBallToSecondGate_ScoreUp()
+        {
+            _score.ScoreUp(secondGate);
+
+            Debug.Log(secondGate);
+            Assert.Greater(_score.ScoreDictionary[secondGate], _scoreStartValueSecondPlayer);
         }
     }
 }
