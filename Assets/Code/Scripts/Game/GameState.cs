@@ -3,6 +3,7 @@
     public enum GameState
     {
         Playing,
-        Pausing
+        Pausing,
+        Stopping
     }
 }

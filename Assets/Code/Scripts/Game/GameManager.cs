@@ -13,7 +13,6 @@ namespace Assets.Code.Scripts.Game
         [Header("Game Settings")]
         [SerializeField] private int _maxScoreForWin = 5;
         [SerializeField] private Spawner _spawner;
-        
 
         private GameState State
         {
@@ -49,19 +48,24 @@ namespace Assets.Code.Scripts.Game
             Score.ScoreUpdate -= CheckGameScore;
         }
 
-        private void Start() => GamePause(true);
+        private void Start() => State = GameState.Stopping;
 
-        private void Update()
+        private void Update() => TryStartGame();
+
+        private void TryStartGame()
         {
-            if (State == GameState.Pausing || Input.anyKeyDown)
+            if (State == GameState.Stopping && Input.GetKeyDown(KeyCode.Space))
             {
                 State = GameState.Playing;
                 GamePause(false);
-                ChangeState?.Invoke(State);
             }
         }
 
-        private void OnApplicationFocus(bool focus) => GamePause(!focus);
+        private void OnApplicationFocus(bool focus)
+        {
+            if (State != GameState.Stopping)
+                GamePause(!focus);
+        }
 
         private void GamePause(bool value)
         {
@@ -73,13 +77,13 @@ namespace Assets.Code.Scripts.Game
             _pause.Pausing(State);
             _audio.Silence(State);
         }
-    
+
         private void CheckGameScore(int score)
         {
             if (score == _maxScoreForWin)
                 OnGameOver?.Invoke();
 
-            GamePause(true);
+            State = GameState.Stopping;
             _spawner.Spawn();
         }
     }

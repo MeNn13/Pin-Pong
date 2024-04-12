@@ -50,7 +50,7 @@ namespace Assets.Code.Scripts.Ball
 
         private void TryLunchBall(GameState state)
         {
-            if (state == GameState.Playing)
+            if (state == GameState.Playing && _direction == Vector2.zero)
                 _direction = Vector2.one;
         }
     }
