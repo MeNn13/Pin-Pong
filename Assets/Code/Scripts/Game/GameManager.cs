@@ -15,6 +15,7 @@ namespace Assets.Code.Scripts.Game
         [Header("Game Settings")]
         [SerializeField] private int _maxScoreForWin = 5;
         [SerializeField] private Spawner _spawner;
+        [SerializeField] private GameObject _startPanel;
 
         private GameState State
         {
@@ -39,6 +40,7 @@ namespace Assets.Code.Scripts.Game
             _audio = new(_audioSource);
             _spawner.Spawn();
             State = GameState.Stopping;
+            _startPanel.SetActive(true);
         }
 
         private void OnEnable()
@@ -59,6 +61,7 @@ namespace Assets.Code.Scripts.Game
             {
                 State = GameState.Playing;
                 GamePause(false);
+                _startPanel.SetActive(false);
             }
         }
 
@@ -90,6 +93,7 @@ namespace Assets.Code.Scripts.Game
             }
 
             _spawner.Spawn();
+            _startPanel.SetActive(true);
         }
     }
 }
